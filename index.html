@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>BoxingGloveCollection — FightGear</title>
+ 
+  <!-- Bootstrap 4 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+        crossorigin="anonymous">
+ 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+ 
+
+  <link rel="stylesheet" href="stylesheet.css">
+ 
+  
+</head>
+<body>
+ 
+ 
+  <nav class="navbar navbar-expand-lg sticky-top">
+  
+ 
+   
+ 
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav ml-auto align-items-center">
+        <a class="nav-link" href="index.html">Home</a>
+        
+        <a class="nav-link" href="checkout.html">
+          Checkout
+        </a>
+      </div>
+    </div>
+  </nav>
+ 
+  
+  <section class="page-hero">
+    <div class="container">
+      <h1> Boxing Glove Collection</h1>
+      <p>Premium gear for every fighter. Add items to your cart and head to checkout.</p>
+    </div>
+  </section>
+ 
+ 
+  <main class="container my-5">
+    
+    <div class="row" id="product-grid"></div>    <!-- JS fills this row with cards -->
+  </main>
+ 
+  
+  <footer>
+    &copy;website made by Oscar medina and Eduardo Garcia
+  </footer>
+ 
+ 
+  
+ <script>
+  
+    const products = [                     // Array containing all product objects
+      {
+        id: 1,                           
+        name:  "Pro Boxing Gloves",       
+        desc:  "Genuine leather, 16oz. Great for heavy bag work.", 
+        price: 89.99,                     
+        emoji: "🥊",                      
+        color: "#ffe0e0"                 
+      },
+      {
+        id: 2,
+        name:  "Hand Wraps (2-pack)",
+        desc:  "180-inch cotton stretch wraps for wrist support.",
+        price: 14.99,
+        emoji: "🤜",
+        color: "#fff3e0"
+      },
+      {
+        id: 3,
+        name:  "Mouth Guard",
+        desc:  "Boil-and-bite custom fit. BPA-free.",
+        price: 19.99,
+        emoji: "😬",
+        color: "#e8f5e9"
+      },
+      {
+        id: 4,
+        name:  "Punching Bag",
+        desc:  "100lb heavy bag with chain and swivel included.",
+        price: 149.99,
+        emoji: "💪",
+        color: "#e3f2fd"
+      },
+      {
+        id: 5,
+        name:  "Speed Rope",
+        desc:  "Adjustable ball-bearing jump rope for training.",
+        price: 24.99,
+        emoji: "🪢",
+        color: "#f3e5f5"
+      },
+      {
+        id: 6,
+        name:  "Head Guard",
+        desc:  "Full-face protection. PU leather shell.",
+        price: 59.99,
+        emoji: "⛑️",
+        color: "#fce4ec"
+      }
+    ];
+ 
+ 
+  
+    function getCart() {                   // Retrieves the cart array from localStorage                 
+      const saved = localStorage.getItem('cart'); // Get stored JSON string   
+      return saved ? JSON.parse(saved) : [];   //If saved exists (is NOT null), return JSON.parse(saved)  //oherwise, return an empty array [] 
+    }
+ 
+    function saveCart(cart) {              // Saves the cart array back to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart)); // Convert array → JSON string
+    }
+ 
+    function isInCart(id) {                // Checks if a product is already in the cart
+      return getCart().some(item => item.id === id); // Returns true if ID matches
+    }
+ 
+    function addToCart(product) {          // Adds a product to the cart
+      const cart = getCart();              // Load current cart
+      if (!isInCart(product.id)) {         // Only add if not already inside
+        cart.push(product);                // Add product object to array
+        saveCart(cart);                    // Save updated cart
+      }
+    }
+ 
+    function removeFromCart(id) {          // Removes a product by ID
+      let cart = getCart();                // Load cart
+      cart = cart.filter(item => item.id !== id); // Keep all except matching ID
+      saveCart(cart);                      // Save updated cart
+    }
+ 
+ 
+ 
+    
+    function buildCards() {                             // Builds all product cards dynamically
+      const grid = document.getElementById('product-grid'); // Container for cards
+      grid.innerHTML = '';                 // Clear previous content
+ 
+      products.forEach(product => {        // Loop through each product object
+        const col = document.createElement('div'); // Create Bootstrap column
+        col.className = 'col-lg-4 col-sm-6 mb-4';  // Responsive column classes
+ 
+        col.innerHTML = `               
+          <div class="card product-card h-100">
+ 
+            <!-- Coloured emoji banner -->
+            <div class="card-emoji-banner" style="background:${product.color}">
+              ${product.emoji}
+            </div>
+ 
+            <!-- Card body (Bootstrap class) -->
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">${product.name}</h5>     
+              <p class="card-text">${product.desc}</p>       
+              <p class="card-price mt-auto mb-2">$${product.price.toFixed(2)}</p>
+ 
+              <!-- Add to Cart -->
+              <button class="btn btn-add" onclick="handleAdd(${product.id})">
+                + Add to Cart
+              </button>
+ 
+              <!-- Remove from Cart -->
+              <button class="btn btn-remove" onclick="handleRemove(${product.id})">
+                ✕ Remove
+              </button>
+ 
+              <!-- Feedback message -->
+              <div class="card-feedback" id="feedback-${product.id}"></div>
+            </div>
+ 
+          </div>
+        `;
+ 
+        grid.appendChild(col);             // Insert the card into the grid
+      });
+    }
+ 
+ 
+
+    function handleAdd(id) {               // Handles clicking "Add to Cart"
+      const product = products.find(p => p.id === id); // Find product by ID
+      const feedback = document.getElementById(`feedback-${id}`); // Feedback area
+ 
+      if (isInCart(id)) {                  // If already in cart
+        feedback.style.color = 'orange';
+        feedback.textContent = 'Already in cart!';
+      } else {
+        addToCart(product);                // Add product
+        feedback.style.color = 'green';
+        feedback.textContent = '✓ Added to cart!';
+        updateCartCount();                 // Update cart bubble
+      }
+      setTimeout(() => { feedback.textContent = ''; }, 2000); // Clear message after 2s
+    }
+ 
+    function handleRemove(id) {            // Handles clicking "Remove"
+      const feedback = document.getElementById(`feedback-${id}`);
+ 
+      if (!isInCart(id)) {                 // If not in cart
+        feedback.style.color = 'grey';
+        feedback.textContent = 'Not in cart yet.';
+      } else {
+        removeFromCart(id);                // Remove product
+        feedback.style.color = '#e84545';
+        feedback.textContent = '✕ Removed from cart.';
+       
+      }
+      setTimeout(() => { feedback.textContent = ''; }, 2000); // Clear message after 2s
+    }
+ 
+ 
+
+    buildCards();                          // Build product cards on page load
+    updateCartCount();                     // Update cart count on page load
+ 
+</script>
+
+</body>
+</html>

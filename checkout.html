@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Checkout — FightGear</title>
+ 
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+        crossorigin="anonymous">
+ 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+ 
+
+  <link rel="stylesheet" href="stylesheet.css">
+ 
+</head>
+<body>
+ 
+  
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav ml-auto align-items-center">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="checkout.html">
+          Checkout 
+        </a>
+      </div>
+    </div>
+  </nav>
+ 
+  
+  <section class="page-hero">
+    <div class="container">
+      <h1>Checkout</h1>
+      <p>Fill in your details, review your cart, then place your order.</p>
+    </div>
+  </section>
+ 
+
+  <main class="container my-5">
+ 
+    <div class="checkout-card" id="checkout-section">
+ 
+      
+      <h2 class="section-title">1. Your Information</h2>
+ 
+      <div class="row">
+ 
+        <!-- LEFT -->
+        <div class="col-md-6">
+          <p class="text-muted mb-3">Personal Details</p>
+ 
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="e.g. John">
+          </div>
+ 
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" placeholder="e.g. Smith">
+          </div>
+ 
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" class="form-control" id="email" placeholder="e.g. john@email.com">
+          </div>
+ 
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" placeholder="e.g. 555-123-4567">
+          </div>
+        </div>
+ 
+        <!-- RIGHT — Shipping Address -->
+        <div class="col-md-6">
+          <p class="text-muted mb-3">Shipping Address</p>
+ 
+          <div class="form-group">
+            <label for="address">Street Address</label>
+            <input type="text" class="form-control" id="address" placeholder="e.g. 123 Main St">
+          </div>
+ 
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" placeholder="e.g. Toronto">
+          </div>
+ 
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="province">Province / State</label>
+              <input type="text" class="form-control" id="province" placeholder="e.g. ON">
+            </div>
+            <div class="form-group col-6">
+              <label for="postal">Postal / ZIP Code</label>
+              <input type="text" class="form-control" id="postal" placeholder="e.g. M5V 2T6">
+            </div>
+          </div>
+ 
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" class="form-control" id="country" placeholder="e.g. Canada">
+          </div>
+        </div>
+ 
+      </div><!-- end row -->
+ 
+      <hr style="border-color:#2a0000; margin: 30px 0;">
+ 
+      
+      <h2 class="section-title">2. Review Your Cart</h2>
+ 
+      <div class="text-center mb-3">
+        <button class="btn-show-cart" onclick="showCart()">
+           Show My Cart
+        </button>
+      </div>
+ 
+      
+      <div id="cart-items-display" style="display:none"></div>
+ 
+      <hr style="border-color:#2a0000; margin: 30px 0;">
+ 
+      
+      <h2 class="section-title">3. Place Your Order</h2>
+ 
+     
+      <p id="form-error" style="display:none; color:#ff6666; text-align:center;"></p>
+ 
+      <button class="btn-buy-now" onclick="BuyNow()">
+        Buy Now
+      </button>
+ 
+ 
+      <div id="order-total-box" style="display:none">
+ 
+        <div class="total-line">
+          <span class="label">Subtotal</span>
+          <span class="value" id="display-subtotal">$0.00</span>
+        </div>
+ 
+        <!-- Discount row - shown only if order is over $100 -->
+        <div class="total-line" id="discount-row" style="display:none">
+          <span class="label">Discount (15% OFF — orders over $100)</span>
+          <span class="value" id="display-discount" style="color:#66ff99">-$0.00</span>
+        </div>
+ 
+        <div class="total-line">
+          <span class="label">Tax (13% )</span>
+          <span class="value" id="display-tax">$0.00</span>
+        </div>
+ 
+        <div class="total-grand">
+          <span>Total</span>
+          <span id="display-total">$0.00</span>
+        </div>
+ 
+      </div>
+ 
+    </div>
+ 
+  </main>
+ 
+  <!-- FOOTER -->
+  <footer>&copy; Website made by Oscar Medina and Eduardo Garcia</footer>
+ 
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+          crossorigin="anonymous"></script>
+ 
+ <script>
+ 
+    function getCart() {                     // Defines a function to retrieve the cart from localStorage
+      var saved = localStorage.getItem('cart');   // Gets the string stored under the key "cart"
+      if (saved) {                                // If something was found (not null)
+        return JSON.parse(saved);                 // Convert JSON string back into an array and return it
+      } else {                                     // If nothing was found
+        return [];                                 // Return an empty array (cart is empty)
+      }
+    }
+ 
+
+    function showCart() {                          // Function to display cart items on the page
+      var cart    = getCart();                     // Retrieve the cart array
+      var display = document.getElementById('cart-items-display'); // Get the container where items will be shown
+ 
+     
+      if (cart.length === 0) {                     // If no items in cart
+        display.innerHTML =                       // Insert a message saying the cart is empty
+          '<p style="color:rgba(255,255,255,0.5); text-align:center;">Your cart is empty. <a href="index.html" style="color:#ff0000">Add items!</a></p>';
+      } else {
+        // Start with an empty string, then add a row for each item
+        var html = '';                             // Prepare a string to build HTML rows
+ 
+        for (var i = 0; i < cart.length; i++) {    // Loop through each item in the cart
+          var item = cart[i];                      // Get the current item
+          html += '<div class="cart-row">';        // Start a row for this item
+          html += '<span class="cart-row-name">' + item.emoji + ' ' + item.name + '</span>'; // Add item emoji + name
+          html += '<span class="cart-row-price">$' + item.price.toFixed(2) + '</span>';      // Add item price formatted to 2 decimals
+          html += '</div>';                        // Close the row
+        }
+ 
+     
+        display.innerHTML = html;                  // Insert the built HTML into the display container
+      }
+ 
+    
+      display.style.display = 'block';             //  cart section is shown
+    }
+ 
+  
+    function BuyNow() {                            // Function that calculates totals and shows the order summary
+ 
+      var cart = getCart();                        // Retrieve the cart
+ 
+      if (cart.length === 0) {                     // If cart is empty, show error and stop
+        document.getElementById('form-error').innerHTML = ' Your cart is empty! Add some items first.';
+        document.getElementById('form-error').style.display = 'block';
+        return;                                    // Exit the function early
+      }
+ 
+      
+      var subtotal = 0;                            // Start subtotal at 0
+      for (var i = 0; i < cart.length; i++) {      // Loop through each cart item
+        subtotal = subtotal + cart[i].price;       // Add item price to subtotal
+      }
+ 
+      
+      // If subtotal is over $100, apply the discount
+      var discount = 0;                            // Start discount at 0
+      if (subtotal > 100) {                        // If subtotal is more than $100
+        discount = subtotal * 0.15;                // Calculate 15% discount
+      }
+ 
+      
+      var afterDiscount = subtotal - discount;     // Subtotal after discount
+      var tax           = afterDiscount * 0.13;    // Calculate 13% tax
+ 
+      var total = afterDiscount + tax;             // Final total
+ 
+    
+      document.getElementById('display-subtotal').innerHTML = '$' + subtotal.toFixed(2); // Show subtotal
+      document.getElementById('display-tax').innerHTML      = '$' + tax.toFixed(2);      // Show tax
+      document.getElementById('display-total').innerHTML    = '$' + total.toFixed(2);    // Show total
+ 
+      
+      if (discount > 0) {                          // If discount exists
+        document.getElementById('display-discount').innerHTML    = '-$' + discount.toFixed(2); // Show discount amount
+        document.getElementById('discount-row').style.display   = 'flex';                      // Make discount row visible
+      } else {
+        document.getElementById('discount-row').style.display   = 'none';                      // Hide discount row
+      }
+ 
+     
+      document.getElementById('order-total-box').style.display = 'block'; // Show the totals section
+ 
+    }
+ 
+ 
+</script>
+
+</body>
+</html>
